@@ -4,55 +4,52 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.showAnswers = void 0;
-var fs_1 = __importDefault(require("fs"));
-var path_1 = __importDefault(require("path"));
-var STARTINGVALUE = 0;
-var filepath = path_1.default.join(__dirname, "input.txt");
-var sourceString = fs_1.default.readFileSync(filepath, "utf8");
-var toNum = function (input) { return parseInt(input); };
-var numArray = sourceString.trim().split("\n").map(toNum);
-// PART ONE
-var adder = function (n1, n2) { return n1 + n2; };
-// PART TWO
-var InfiniteArray = /** @class */ (function () {
-    function InfiniteArray(a) {
-        this.source = a;
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+const STARTINGVALUE = 0;
+const filepath = path_1.default.join(__dirname, "input.txt");
+const sourceString = fs_1.default.readFileSync(filepath, "utf8");
+const toNum = (input) => parseInt(input);
+const numArray = sourceString.trim().split("\n").map(toNum);
+const adder = (n1, n2) => n1 + n2;
+const answer = numArray.reduce(adder, STARTINGVALUE);
+class InfiniteArray {
+    constructor(source) {
+        this.source = source;
         this.index = 0;
-        this.length = a.length;
+        this.length = source.length;
     }
-    InfiniteArray.prototype.next = function () {
-        var result = this.source[this.index];
-        if (this.index === this.source.length - 1) {
+    next() {
+        const result = this.source[this.index];
+        if (this.index === this.length - 1) {
             this.index = 0;
         }
         else {
             this.index++;
         }
         return result;
-    };
-    return InfiniteArray;
-}());
-var infiniteArr = new InfiniteArray(numArray);
+    }
+}
+const infiniteArr = new InfiniteArray(numArray);
 function findRepeatedResult(infArr) {
-    var accumulator = 0;
-    var results = new Set();
-    var newVal = 0;
+    let accumulator = 0;
+    let results = new Set();
     while (true) {
-        var nextNum = infArr.next();
-        newVal = adder(accumulator, nextNum);
+        let nextNum = infArr.next();
+        var newVal = adder(accumulator, nextNum);
         if (results.has(newVal)) {
             break;
         }
         else {
+            accumulator = newVal;
             results.add(newVal);
         }
     }
     return newVal;
 }
+const answer2 = findRepeatedResult(infiniteArr);
 function showAnswers() {
-    var answer = numArray.reduce(adder, STARTINGVALUE);
     console.log("Part One answer: " + answer);
-    var answer2 = findRepeatedResult(infiniteArr);
     console.log("Part Two answer: " + answer2);
 }
 exports.showAnswers = showAnswers;
