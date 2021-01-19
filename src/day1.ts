@@ -1,21 +1,6 @@
-import fs from "fs";
-import path from "path";
-
-export { showAnswers };
-
-const STARTINGVALUE = 0;
-const filepath = path.join(__dirname, "input.txt");
-const sourceString = fs.readFileSync(filepath, "utf8");
-
-// PART ONE
-
-const toNum = (input: string): number => parseInt(input);
-const numArray = sourceString.trim().split("\n").map(toNum);
+export default showAnswers;
 
 const adder = (n1: number, n2: number): number => n1 + n2;
-const answer = numArray.reduce(adder, STARTINGVALUE);
-
-// PART TWO
 
 class InfiniteArray<T> {
   private index: number;
@@ -38,8 +23,6 @@ class InfiniteArray<T> {
   }
 }
 
-const infiniteArr = new InfiniteArray(numArray);
-
 function findRepeatedResult(infArr: InfiniteArray<number>): number {
   let accumulator = 0;
   let results: Set<number> = new Set();
@@ -58,11 +41,19 @@ function findRepeatedResult(infArr: InfiniteArray<number>): number {
   return newVal;
 }
 
-const answer2 = findRepeatedResult(infiniteArr);
+function showAnswers(sourceString: string): [number, number] {
+  // PART ONE
 
-// PRINT RESULTS
+  const STARTINGVALUE = 0;
 
-function showAnswers() {
-  console.log("Part One answer: " + answer);
-  console.log("Part Two answer: " + answer2);
+  const toNum = (input: string): number => parseInt(input);
+  const numArray = sourceString.trim().split("\n").map(toNum);
+  const answer = numArray.reduce(adder, STARTINGVALUE);
+
+  // Part two
+
+  const infiniteArr = new InfiniteArray(numArray);
+  const answer2 = findRepeatedResult(infiniteArr);
+
+  return [answer, answer2];
 }
