@@ -41,7 +41,7 @@ function findRepeatedResult(infArr: InfiniteArray<number>): number {
   return newVal;
 }
 
-function showAnswers(sourceString: string): [number, number] {
+function showAnswers(sourceString: string): [string, string] {
   // PART ONE
 
   const STARTINGVALUE = 0;
@@ -55,5 +55,5 @@ function showAnswers(sourceString: string): [number, number] {
   const infiniteArr = new InfiniteArray(numArray);
   const answer2 = findRepeatedResult(infiniteArr);
 
-  return [answer, answer2];
+  return [answer.toString(), answer2.toString()];
 }
